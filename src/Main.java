@@ -54,6 +54,56 @@ public class Main {
 
             // Main game loop
             while (!gameOver) {
+                // Draw Pause button
+                double pauseBtnX = 18, pauseBtnY = 17.5, pauseBtnW = 1, pauseBtnH = 0.5;
+                StdDraw.setPenColor(StdDraw.WHITE);
+                StdDraw.filledRectangle(pauseBtnX, pauseBtnY, pauseBtnW, pauseBtnH);
+                StdDraw.setPenColor(StdDraw.BLUE);
+                StdDraw.rectangle(pauseBtnX, pauseBtnY, pauseBtnW, pauseBtnH);
+                StdDraw.setPenColor(StdDraw.BLACK);
+                StdDraw.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 24));
+                StdDraw.text(pauseBtnX, pauseBtnY, "Pause");
+
+                // Check for Pause button click
+                if (StdDraw.isMousePressed()) {
+                    double mx = StdDraw.mouseX();
+                    double my = StdDraw.mouseY();
+                    if (mx >= pauseBtnX - pauseBtnW && mx <= pauseBtnX + pauseBtnW &&
+                        my >= pauseBtnY - pauseBtnH && my <= pauseBtnY + pauseBtnH) {
+                        // Wait for mouse release
+                        while (StdDraw.isMousePressed()) {
+                            StdDraw.pause(10);
+                        }
+                        // Pause loop
+                        boolean paused = true;
+                        while (paused) {
+                            // Draw Resume button
+                            StdDraw.setPenColor(StdDraw.WHITE);
+                            StdDraw.filledRectangle(pauseBtnX, pauseBtnY, pauseBtnW, pauseBtnH);
+                            StdDraw.setPenColor(StdDraw.BLUE);
+                            StdDraw.rectangle(pauseBtnX, pauseBtnY, pauseBtnW, pauseBtnH);
+                            StdDraw.setPenColor(StdDraw.BLACK);
+                            StdDraw.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 24));
+                            StdDraw.text(pauseBtnX, pauseBtnY, "Resume");
+                            StdDraw.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 60));
+                            StdDraw.text(10.5, 10, "Paused");
+                            StdDraw.show();
+                            if (StdDraw.isMousePressed()) {
+                                double mx2 = StdDraw.mouseX();
+                                double my2 = StdDraw.mouseY();
+                                if (mx2 >= pauseBtnX - pauseBtnW && mx2 <= pauseBtnX + pauseBtnW &&
+                                    my2 >= pauseBtnY - pauseBtnH && my2 <= pauseBtnY + pauseBtnH) {
+                                    while (StdDraw.isMousePressed()) {
+                                        StdDraw.pause(10);
+                                    }
+                                    paused = false;
+                                }
+                            }
+                            StdDraw.pause(10);
+                        }
+                    }
+                }
+
                 pacman.handleInput(gameScene.getEnvironment());
                 for (Monster monster : monsters) {
                     monster.handleInput(gameScene.getEnvironment());
